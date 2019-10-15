@@ -210,7 +210,7 @@ function getResults(operation, callback) {
 							)[0].value
 						}))
 					);
-					logger.info("SQL Query result : " + result);
+					logger.info("SQL Query result : " + JSON.stringify(result));
 					callback(error, result);
 				}
 			});
