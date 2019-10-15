@@ -1,8 +1,8 @@
-# ImpalaThrift
-Impala connector using HiveServer2 Thrift Service.
+# Hive Server 2 Thrift
+Hive Server 2 client using Apache Thrift RPC able to query Impala for Javascript.
 
 ## Getting Started
-* Update the config.json file with your settings
+---
 
 ### Install the npm packages detailed in package.json
 ```
@@ -14,10 +14,10 @@ npm install
 const client = require("../index.js");
 
 const config = {
-  host: 'example.com.au',
-  port: 1234,
-  username: '',
-  password: ''
+  host: 'example.com.au',   // Change to correspond with your config
+  port: 1234,               // Change to correspond with your config
+  username: '',             // Change to correspond with your config
+  password: ''              // Change to correspond with your config
 }
 
 var sqlQuery = "select * from db.table";  // 
