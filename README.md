@@ -11,6 +11,7 @@ npm install
 
 ### Example using HiveServer2
 ```
+// const client = require("hs2-thrift");  <-- Use this if example.js is outside hs2-thrift package
 const client = require("../index.js");
 
 const config = {
