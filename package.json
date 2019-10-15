@@ -30,5 +30,11 @@
   },
   "engines": {
     "node": ">= 10.16.3"
-  }
+  },
+  "directories":{
+    "lib": "lib",
+    "src": "src",
+    "var": "var",
+    "examples": "examples"
+  } 
 }
