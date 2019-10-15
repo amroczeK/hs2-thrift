@@ -14,11 +14,11 @@ const logger = bunyan.createLogger({
 	streams: [
 		{
 			level: "info",
-			path: "../hs2-thrift/logs/hive-thrift-logs.log"
+			path: "./node_modules/hs2-thrift/logs/hive-thrift-logs.log"
 		},
 		{
 			level: "error",
-			path: "../hs2-thrift/logs/hive-thrift-logs.log"
+			path: "./node_modules/hs2-thrift/logs/hive-thrift-logs.log"
 		}
 	]
 });
