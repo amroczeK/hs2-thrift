@@ -1,0 +1,34 @@
+{
+  "name": "hs2-thrift",
+  "version": "1.0.0",
+  "description": "Hive Server 2 client using Apache Thrift RPC able to query Impala for Javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amroczeK/hs2-thrift.git"
+  },
+    "bugs": {
+    "url": "https://github.com/amroczeK/hs2-thrift/issues"
+  },
+  "homepage": "https://github.com/amroczeK/hs2-thrift#readme",
+  "keywords": [
+    "thrift",
+    "impala",
+    "client",
+    "hive",
+    "hadoop",
+    "HiveServer2"
+  ],
+  "author": "Adrian Mroczek",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "thrift": "^0.12.0"
+  },
+  "engines": {
+    "node": ">= 10.16.3"
+  }
+}
