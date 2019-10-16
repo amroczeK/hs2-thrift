@@ -1,6 +1,6 @@
 {
   "name": "hs2-thrift",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Hive Server 2 client using Apache Thrift RPC able to query Impala for Javascript.",
   "main": "index.js",
   "scripts": {
