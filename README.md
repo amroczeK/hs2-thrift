@@ -3,8 +3,14 @@ Hive Server 2 client using Apache Thrift RPC able to query Impala written in Jav
 
 NOTE: There is currently very limited functionality, it will only query the DB and return a result. More functionality will be added later if required for my project.
 
+HiveServer2 Thrift protocol used fined in latest TCLIService.thrift: https://github.com/apache/hive/blob/master/service-rpc/if/TCLIService.thrift
+
 ## Getting Started
----
+
+### Prerequisites
+* Nodejs => 10.16.3
+* npm
+* git
 
 ### Option 1: Install the npm package and refer to example for usage
 ```
@@ -13,6 +19,8 @@ npm install hs2-thrift
 
 ### Option 2: Clone git repo and install the npm packages detailed in package.json
 ```
+git clone https://github.com/amroczeK/hs2-thrift.git hs2-thrift
+cd hs2-thrift
 npm install 
 ```
 
