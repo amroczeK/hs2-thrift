@@ -4,14 +4,19 @@ Hive Server 2 client using Apache Thrift RPC able to query Impala for Javascript
 ## Getting Started
 ---
 
-### Install the npm packages detailed in package.json
+### Option 1: Install the npm package and refer to example for usage
+```
+npm install hs2-thrift 
+```
+
+### Option 2: Clone git repo and install the npm packages detailed in package.json
 ```
 npm install 
 ```
 
 ### Example using HiveServer2
 ```
-// const client = require("hs2-thrift");  <-- Use this if example.js is outside hs2-thrift package
+// const client = require("hs2-thrift");  <-- Use this if example.js is outside hs2-thrift package e.g. used 'npm install hs2-thrift'
 const client = require("../index.js");
 
 const config = {
@@ -21,7 +26,7 @@ const config = {
   password: ''              // Change to correspond with your config
 }
 
-var sqlQuery = "select * from db.table";  // 
+var sqlQuery = "select * from db.table";  // Example query
 
 const impalaQuery = (config, sqlQuery) => {
 
