@@ -2,10 +2,10 @@
 const client = require("../index.js");
 
 const config = {
-  host: 'example.com.au',
-  port: 1234,
-  username: '',
-  password: ''
+  host: 'example.com.au', // Change to correspond with your config
+  port: 1234,             // Change to correspond with your config
+  username: '',           // Change to correspond with your config
+  password: ''            // Change to correspond with your config
 }
 
 var sqlQuery = "select * from db.table";  // 
