@@ -1,5 +1,7 @@
 # Hive Server 2 Thrift
-Hive Server 2 client using Apache Thrift RPC able to query Impala for Javascript.
+Hive Server 2 client using Apache Thrift RPC able to query Impala written in Javascript.
+
+NOTE: There is currently very limited functionality, it will only query the DB and return a result. More functionality will be added later if required for my project.
 
 ## Getting Started
 ---
@@ -62,6 +64,15 @@ const impalaQuery = (config, sqlQuery) => {
 impalaQuery(config, sqlQuery);
 ```
 
+### Example output / result
+```
+PS C:\dev\javascript_projects\hs2-thrift-example> node .\main.js
+Attempting to connect to: ***.***.com.au:****
+select * from default.temp => 
+[[{"col1":5},{"col2":6}],[{"col1":1},{"col2":2}],[{"col1":3},{"col2":4}]]
+Disconnected successfully.
+```
+
 ### Running the example
 ```
 node example.js
@@ -72,3 +83,6 @@ node example.js
 Hive connection error : TProtocolException: Required field operationHandle is unset!
 // Make sure that the SQL query you are sending is valid and connecting to the correct DB.
 ```
+
+#### Credits
+This project is largely based off of the work done by user SistemaStrategy (https://github.com/SistemaStrategy/HiveThrift), with my own modifications and improvements to the code and result output. More changes and improvements will be made to my version in the future.
