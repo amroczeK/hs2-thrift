@@ -8,7 +8,7 @@ const config = {
   password: ''              // Change to correspond with your config
 }
 
-var sqlQuery = "select * from default.temp";  // 
+var sqlQuery = "select * from default.temp";  // Change this query to suit your db/table
 
 function getSession(config) {
 	return new Promise((resolve, reject) => {
@@ -43,20 +43,17 @@ function sendQuery(session) {
 	})
 }
 
-getSession(config).then((session) => {
-	sendQuery(session).then((result) => {
+async function queryImpala(){
+	try {
+		const session = await getSession(config);
+		console.log("Session created.")
+		const result = await sendQuery(session);
 		console.log("Result: " + sqlQuery + " => \n" + JSON.stringify(result));
-		endSession(session).then((response) => {
-			console.log("Disconnected from server and closed session successfully.")
-			process.exit(0)
-		}).catch((error) => {
-			console.log("Disconnect and end session error : " + JSON.stringify(error))
-			process.exit(1)
-		})
-
-	}).catch((error) => {
-		console.log("\nSQL Query error\n" + error + session);
-	})
-}).catch((error) => {
-	console.log("\nHive connection error : " + error);
-})
+		const response = await endSession(session);
+		console.log("Disconnected from server and closed session successfully." + JSON.stringify(response))
+		process.exit(0)
+	} catch(error) {
+		console.log(JSON.stringify(error))
+	}
+}
+queryImpala()
