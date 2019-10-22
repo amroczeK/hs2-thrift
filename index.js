@@ -1,2 +1,2 @@
   
-module.exports = require('./src/HiveService2ThriftClient');
+module.exports = require('./src/HiveServer2ThriftClient');
