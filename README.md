@@ -37,13 +37,17 @@ const config = {
     protocol_ver: 5,		  // Version 1 - 11. Change to suit your HS2 Protocol Version, defaults to V5
     retain_session: false	  // true - will NOT close connection and session
                               // false - will close connection and session
+							  // Default: false, connection and session will close unless specified
   }
 
 var sqlQuery = "select * from default.temp";  // Change this query to suit your db/table
 
 client.connectAndQuery(config, sqlQuery).then((result) => {
 	console.log("Result: " + sqlQuery + " => \n" + JSON.stringify(result));
-	process.exit(0)
+	// if retain_session == true, connection & session will remain active, process will not close
+	if (!config.retain_session) {
+		process.exit(0);
+	}
 }).catch((error) => {
 	console.log(JSON.stringify(error))
 	process.exit(1)

@@ -83,7 +83,7 @@ HiveServer2ThriftClient.prototype.executeStatement = function executeStatement(
 	return new Promise((resolve, reject) => {
 		executeQuery(session, statement)
 			.then(result => {
-				resolve(result)
+				resolve(result);
 			})
 			.catch(error => {
 				reject(error);
@@ -97,22 +97,37 @@ HiveServer2ThriftClient.prototype.executeStatement = function executeStatement(
  *	@param statement - SQL statement/query
  *	@return a promise with response or error
  */
-HiveServer2ThriftClient.prototype.connectAndQuery = function connectAndQuery(config, statement) {
+HiveServer2ThriftClient.prototype.connectAndQuery = function connectAndQuery(
+	config,
+	statement
+) {
 	logger.info("Sending SQL Query : " + statement);
 	return new Promise((resolve, reject) => {
 		establishConnection(config)
 			.then(session => {
-				executeQuery(session, statement).then(result => {
-					resolve(result)
-					if(!config.retain_session)
-					{
-						closeConnection(session).catch(error => {
-							reject(error)
-						})
-					}
-				}).catch(error => {
-					reject(error)
-				})
+				executeQuery(session, statement)
+					.then(result => {
+						resolve(result);
+						switch (config.retain_session) {
+							case true:
+								logger.info(
+									"Connection and session remains alive."
+								);
+								break;
+							case false:
+								closeConnection(session).catch(error => {
+									reject(error);
+								});
+								break;
+							default:
+								closeConnection(session).catch(error => {
+									reject(error);
+								});
+						}
+					})
+					.catch(error => {
+						reject(error);
+					});
 			})
 			.catch(error => {
 				reject(error);
@@ -253,7 +268,7 @@ const openSessionThrift = config => {
  *	Set protocol to appropriate HiveServer2 Protocol Version
  *	@param config - the server configuration
  *	@return protocol for HiveServer2 Thrift Service version
-*/
+ */
 const setProtocolVersion = config => {
 	var protocol;
 	switch (config.protocol_ver) {
