@@ -7,8 +7,7 @@ const config = {
 	username: "", // Change to correspond with your config
 	password: "", // Change to correspond with your config
 	protocol_ver: 5, // Version 1 - 11. Change to suit your HS2 Protocol Version, defaults to V5
-	retain_session: false // true - will NOT close connection and session
-	// false - will close connection and session
+	retain_session: null // Set true if you want to retain connection and session
 };
 
 var sqlQuery = "select * from default.temp"; // Change this query to suit your db/table
@@ -19,11 +18,11 @@ async function queryImpala() {
 		console.log("Session created.");
 		const result = await client.query(session, sqlQuery);
 		console.log("Result: " + sqlQuery + " => \n" + JSON.stringify(result));
-		await client.disconnect(session);
-		console.log(
-			"Disconnected from server and closed session successfully."
-		);
-		process.exit(0);
+		if (config.retain_session == null) {
+			await client.disconnect(session);
+			console.log("Disconnected from server and closed session successfully.");
+			process.exit(0);
+		}
 	} catch (error) {
 		console.log("Error: " + JSON.stringify(error));
 		process.exit(1);

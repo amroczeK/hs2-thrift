@@ -35,9 +35,7 @@ const config = {
     username: '',             // Change to correspond with your config
     password: '',             // Change to correspond with your config
     protocol_ver: 5,		  // Version 1 - 11. Change to suit your HS2 Protocol Version, defaults to V5
-    retain_session: false	  // true - will NOT close connection and session
-                              // false - will close connection and session
-							  // Default: false, connection and session will close unless specified
+    retain_session: null	  // Set true if you want to retain connection and session
   }
 
 var sqlQuery = "select * from default.temp";  // Change this query to suit your db/table
@@ -45,7 +43,7 @@ var sqlQuery = "select * from default.temp";  // Change this query to suit your 
 client.connectAndQuery(config, sqlQuery).then((result) => {
 	console.log("Result: " + sqlQuery + " => \n" + JSON.stringify(result));
 	// if retain_session == true, connection & session will remain active, process will not close
-	if (!config.retain_session) {
+	if (config.retain_session == null) {
 		process.exit(0);
 	}
 }).catch((error) => {
@@ -64,8 +62,7 @@ const config = {
   username: '',             // Change to correspond with your config
   password: '',             // Change to correspond with your config
   protocol_ver: 5,			// Version 1 - 11. Change to suit your HS2 Protocol Version, defaults to V5
-  retain_session: false		// true - will NOT close connection and session
-							// false - will close connection and session
+  retain_session: null		// Set true if you want to retain connection and session
 }
 
 var sqlQuery = "select * from default.temp";  // Change this query to suit your db/table
@@ -76,9 +73,11 @@ async function queryImpala(){
 		console.log("Session created.")
 		const result = await client.query(session, sqlQuery);
 		console.log("Result: " + sqlQuery + " => \n" + JSON.stringify(result));
-		await client.disconnect(session);
-		console.log("Disconnected from server and closed session successfully.")
-		process.exit(0)
+		if (config.retain_session == null) {
+			await client.disconnect(session);
+			console.log("Disconnected from server and closed session successfully.");
+			process.exit(0);
+		}
 	} catch(error) {
         console.log("Error: " + JSON.stringify(error))
         process.exit(1)
@@ -106,4 +105,5 @@ node example.js
 ```
 Hive connection error : TProtocolException: Required field operationHandle is unset!
 // Make sure that the SQL query you are sending is valid and connecting to the correct DB.
+// Also make sure the query is valid.
 ```

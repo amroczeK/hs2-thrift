@@ -1,6 +1,6 @@
 /*
- * @author	amroczeK
- * @version 1.0.7
+ * @author	Adrian Mroczek
+ * @version 1.0.8
  * @github	https://github.com/amroczeK/hs2-thrift
  * @npm		https://www.npmjs.com/package/hs2-thrift
  */
@@ -76,7 +76,7 @@ HiveServer2ThriftClient.prototype.disconnect = function disconnect(session) {
  *	@param statement - SQL statement/query
  *	@return a promise with result or error
  */
-HiveServer2ThriftClient.prototype.executeStatement = function executeStatement(
+HiveServer2ThriftClient.prototype.query = function executeStatement(
 	session,
 	statement
 ) {
@@ -107,22 +107,18 @@ HiveServer2ThriftClient.prototype.connectAndQuery = function connectAndQuery(
 			.then(session => {
 				executeQuery(session, statement)
 					.then(result => {
-						resolve(result);
 						switch (config.retain_session) {
 							case true:
-								logger.info(
-									"Connection and session remains alive."
-								);
-								break;
-							case false:
-								closeConnection(session).catch(error => {
-									reject(error);
-								});
+								logger.info("Connection and session remains alive.");
 								break;
 							default:
-								closeConnection(session).catch(error => {
-									reject(error);
-								});
+								closeConnection(session)
+									.then(() => {
+										resolve(result);
+									})
+									.catch(error => {
+										reject(error);
+									});
 						}
 					})
 					.catch(error => {
