@@ -1,6 +1,6 @@
 /*
  * @author	Adrian Mroczek
- * @version 1.0.8
+ * @version 1.0.9
  * @github	https://github.com/amroczeK/hs2-thrift
  * @npm		https://www.npmjs.com/package/hs2-thrift
  */
