@@ -79,11 +79,12 @@ async function queryImpala(){
 			process.exit(0);
 		}
 	} catch(error) {
-        console.log("Error: " + JSON.stringify(error))
-        process.exit(1)
+        console.log("Error: " + JSON.stringify(error));
+		await client.disconnect(session);
+        process.exit(1);
 	}
 }
-queryImpala()
+queryImpala();
 ```
 
 ### Example output / result
@@ -107,3 +108,7 @@ Hive connection error : TProtocolException: Required field operationHandle is un
 // Make sure that the SQL query you are sending is valid and connecting to the correct DB.
 // Also make sure the query is valid.
 ```
+
+### Acknowledgements
+Reviewing SistemaStrategy's (https://github.com/SistemaStrategy/HiveThrift) implementation
+of Apache Hive Thrift was a great help in developing this package.

@@ -25,6 +25,7 @@ async function queryImpala() {
 		}
 	} catch (error) {
 		console.log("Error: " + JSON.stringify(error));
+		await client.disconnect(session);
 		process.exit(1);
 	}
 }

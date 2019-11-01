@@ -122,7 +122,13 @@ HiveServer2ThriftClient.prototype.connectAndQuery = function connectAndQuery(
 						}
 					})
 					.catch(error => {
-						reject(error);
+						closeConnection(session)
+									.then(() => {
+										reject(error)
+									})
+									.catch(error => {
+										reject(error);
+									});
 					});
 			})
 			.catch(error => {
