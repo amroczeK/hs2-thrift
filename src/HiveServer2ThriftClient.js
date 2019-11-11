@@ -1,3 +1,10 @@
+/*
+ * @author	Adrian Mroczek
+ * @version 1.0.10
+ * @github	https://github.com/amroczeK/hs2-thrift
+ * @npm		https://www.npmjs.com/package/hs2-thrift
+ */
+
 "use strict";
 const thrift = require("thrift"),
 	service = require("../lib/gen-nodejs/TCLIService"),
