@@ -1,10 +1,3 @@
-/*
- * @author	Adrian Mroczek
- * @version 1.0.9
- * @github	https://github.com/amroczeK/hs2-thrift
- * @npm		https://www.npmjs.com/package/hs2-thrift
- */
-
 "use strict";
 const thrift = require("thrift"),
 	service = require("../lib/gen-nodejs/TCLIService"),
@@ -30,112 +23,106 @@ const logger = bunyan.createLogger({
 	]
 });
 
-/* HiveServer2ThriftClient class default constructor */
-function HiveServer2ThriftClient() {}
+class HiveServer2ThriftClient {
+	constructor() {}
 
-/*
- *	Connect to database and create thrift client
- *	@param config - the server configuration
- *	@return a promise with session or error
- */
-HiveServer2ThriftClient.prototype.connect = function connect(config) {
-	logger.info("Attempting to connect to: " + config.host + ":" + config.port);
+	/*
+	 *	Connect to database and create thrift client
+	 *	@param config - the server configuration
+	 *	@return a promise with session or error
+	 */
+	connect(config) {
+		return new Promise((resolve, reject) => {
+			establishConnection(config)
+				.then(session => {
+					resolve(session);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	}
 
-	return new Promise((resolve, reject) => {
-		/* Create a connection and thrift client */
-		establishConnection(config)
-			.then(session => {
-				resolve(session);
-			})
-			.catch(error => {
-				reject(error);
-			});
-	});
-};
+	/*
+	 *	Disconnect from the server and close thrift session
+	 *	@param session - the current thrift session
+	 *	@return a promise with response or error
+	 */
+	disconnect(session) {
+		return new Promise((resolve, reject) => {
+			closeConnection(session)
+				.then(response => {
+					resolve(response);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	}
 
-/*
- *	Disconnect from the server and close thrift session
- *	@param session - the current thrift session
- *	@return a promise with response or error
- */
-HiveServer2ThriftClient.prototype.disconnect = function disconnect(session) {
-	return new Promise((resolve, reject) => {
-		closeConnection(session)
-			.then(response => {
-				resolve(response);
-			})
-			.catch(error => {
-				reject(error);
-			});
-	});
-};
+	/*
+	 *	Execute a select statement
+	 *	@param session - the current thrift session
+	 *	@param statement - SQL statement/query
+	 *	@return a promise with result or error
+	 */
+	query(session, statement) {
+		return new Promise((resolve, reject) => {
+			executeQuery(session, statement)
+				.then(result => {
+					resolve(result);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	}
 
-/*
- *	Execute a select statement
- *	@param session - the current thrift session
- *	@param statement - SQL statement/query
- *	@return a promise with result or error
- */
-HiveServer2ThriftClient.prototype.query = function executeStatement(
-	session,
-	statement
-) {
-	return new Promise((resolve, reject) => {
-		executeQuery(session, statement)
-			.then(result => {
-				resolve(result);
-			})
-			.catch(error => {
-				reject(error);
-			});
-	});
-};
-
-/*
- *	Create a connection, session and execute SQL query
- *	@param session - the current thrift session
- *	@param statement - SQL statement/query
- *	@return a promise with response or error
- */
-HiveServer2ThriftClient.prototype.connectAndQuery = function connectAndQuery(
-	config,
-	statement
-) {
-	logger.info("Sending SQL Query : " + statement);
-	return new Promise((resolve, reject) => {
-		establishConnection(config)
-			.then(session => {
-				executeQuery(session, statement)
-					.then(result => {
-						switch (config.retain_session) {
-							case true:
-								logger.info("Connection and session remains alive.");
-								break;
-							default:
-								closeConnection(session)
-									.then(() => {
-										resolve(result);
-									})
-									.catch(error => {
-										reject(error);
-									});
-						}
-					})
-					.catch(error => {
-						closeConnection(session)
-									.then(() => {
-										reject(error)
-									})
-									.catch(error => {
-										reject(error);
-									});
-					});
-			})
-			.catch(error => {
-				reject(error);
-			});
-	});
-};
+	/*
+	 *	Create a connection, session and execute SQL query
+	 *	@param session - the current thrift session
+	 *	@param statement - SQL statement/query
+	 *	@return a promise with response or error
+	 */
+	connectAndQuery(config, statement) {
+		logger.info("Sending SQL Query : " + statement);
+		return new Promise((resolve, reject) => {
+			establishConnection(config)
+				.then(session => {
+					executeQuery(session, statement)
+						.then(result => {
+							switch (config.retain_session) {
+								case true:
+									logger.info(
+										"Connection and session remains alive."
+									);
+									break;
+								default:
+									closeConnection(session)
+										.then(() => {
+											resolve(result);
+										})
+										.catch(error => {
+											reject(error);
+										});
+							}
+						})
+						.catch(error => {
+							closeConnection(session)
+								.then(() => {
+									reject(error);
+								})
+								.catch(error => {
+									reject(error);
+								});
+						});
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	}
+}
 
 /*
  *	Connect to database and create thrift client
