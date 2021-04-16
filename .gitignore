@@ -1,2 +1,4 @@
 node_modules/
 package-lock.json
+hive-thrift-logs.log
+examples/hive-thrift-logs.log
