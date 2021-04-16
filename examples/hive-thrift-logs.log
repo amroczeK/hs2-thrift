@@ -1,0 +1,1 @@
+{"name":"HiveServer2ThriftClient","hostname":"CMM-C02DT7R2MD6M","pid":59275,"level":30,"msg":"Sending SQL Query : select * from default.temp","time":"2021-04-16T01:56:45.332Z","v":0}
